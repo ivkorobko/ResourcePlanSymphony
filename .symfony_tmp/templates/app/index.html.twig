@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ресурсный план</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    {{ importmap('app') }}
+</head>
+<body>
+    <div class="page-shell">
+        <header class="topbar topbar-compact">
+            <button id="openSettingsBtn" class="ghost-button">Настройка</button>
+        </header>
+
+        <main class="workspace">
+            <section class="content-column">
+                <div class="hero-panel">
+                    <div class="hero-copy">
+                        <h2>Ресурсный план за несколько шагов</h2>
+                        <p>Файл отпусков загружается в исходном формате, сотрудники группируются по подразделениям, а итоговая выгрузка собирается на базе шаблона ресурсного плана.</p>
+                    </div>
+                    <div class="hero-stats" id="heroStats"></div>
+                </div>
+
+                <div class="steps-scroll">
+                    <section class="wizard-card" data-step="1">
+                        <div class="accordion-header" data-action="toggle-accordion" data-value="1">
+                            <div class="accordion-title">
+                                <span class="section-index">1</span>
+                                <h3>Загрузка файла</h3>
+                            </div>
+                            <button class="accordion-toggle" data-action="toggle-accordion" data-value="1" aria-label="Свернуть или развернуть этап"></button>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-meta">
+                                <p class="section-note">Загрузите файл графика отпусков в исходном Excel-формате.</p>
+                                <span class="state-pill" id="pill-step-1">Ожидание</span>
+                            </div>
+                            <label class="upload-zone">
+                                <input type="file" id="fileInput" accept=".xlsx">
+                                <span>Перетащите файл или нажмите для выбора</span>
+                                <small id="uploadMeta">Будет сохранён в JSON и использован для анализа.</small>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="wizard-card" data-step="2">
+                        <div class="accordion-header" data-action="toggle-accordion" data-value="2">
+                            <div class="accordion-title">
+                                <span class="section-index">2</span>
+                                <h3>Сохранение данных</h3>
+                            </div>
+                            <button class="accordion-toggle" data-action="toggle-accordion" data-value="2" aria-label="Свернуть или развернуть этап"></button>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-meta">
+                                <p class="section-note">Выберите команду из настроек. После выбора сохранённый состав команды будет подставлен в подразделения и сотрудников.</p>
+                                <span class="state-pill" id="pill-step-2">Ожидание</span>
+                            </div>
+                            <div id="workflowTeamList" class="chip-list"></div>
+                            <div id="workflowTeamPreview"></div>
+                            <div id="workflowTeamWarning"></div>
+                        </div>
+                    </section>
+
+                    <section class="wizard-card" data-step="3">
+                        <div class="accordion-header" data-action="toggle-accordion" data-value="3">
+                            <div class="accordion-title">
+                                <span class="section-index">3</span>
+                                <h3>Подразделения</h3>
+                            </div>
+                            <button class="accordion-toggle" data-action="toggle-accordion" data-value="3" aria-label="Свернуть или развернуть этап"></button>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-meta">
+                                <p class="section-note">Выберите одно или несколько подразделений для планирования.</p>
+                                <div class="accordion-tools">
+                                    <button id="bulkDepartmentsBtn" class="bulk-select-button" data-action="bulk-departments" type="button">Выделить все</button>
+                                    <span class="state-pill" id="pill-step-3">Ожидание</span>
+                                </div>
+                            </div>
+                            <div id="departmentList" class="chip-list"></div>
+                        </div>
+                    </section>
+
+                    <section class="wizard-card" data-step="4">
+                        <div class="accordion-header" data-action="toggle-accordion" data-value="4">
+                            <div class="accordion-title">
+                                <span class="section-index">4</span>
+                                <h3>Сотрудники</h3>
+                            </div>
+                            <button class="accordion-toggle" data-action="toggle-accordion" data-value="4" aria-label="Свернуть или развернуть этап"></button>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-meta">
+                                <p class="section-note">Отметьте сотрудников внутри выбранных подразделений. Должность для каждого берётся из загруженного файла.</p>
+                                <div class="accordion-tools">
+                                    <button id="bulkEmployeesBtn" class="bulk-select-button" data-action="bulk-employees" type="button">Выделить все</button>
+                                    <span class="state-pill" id="pill-step-4">Ожидание</span>
+                                </div>
+                            </div>
+                            <div id="employeeGroups" class="employee-groups"></div>
+                        </div>
+                    </section>
+
+                    <section class="wizard-card" data-step="5">
+                        <div class="accordion-header" data-action="toggle-accordion" data-value="5">
+                            <div class="accordion-title">
+                                <span class="section-index">5</span>
+                                <h3>Период</h3>
+                            </div>
+                            <button class="accordion-toggle" data-action="toggle-accordion" data-value="5" aria-label="Свернуть или развернуть этап"></button>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-meta">
+                                <p class="section-note">Выберите подряд идущие месяцы. Для шаблонного экспорта доступно до трёх месяцев.</p>
+                                <div class="accordion-tools">
+                                    <button id="bulkMonthsBtn" class="bulk-select-button" data-action="bulk-months" type="button">Выделить все</button>
+                                    <span class="state-pill" id="pill-step-5">Ожидание</span>
+                                </div>
+                            </div>
+                            <div id="yearList" class="year-list"></div>
+                            <div id="monthList" class="month-grid"></div>
+                        </div>
+                    </section>
+
+                    <section class="wizard-card" data-step="6">
+                        <div class="accordion-header" data-action="toggle-accordion" data-value="6">
+                            <div class="accordion-title">
+                                <span class="section-index">6</span>
+                                <h3>Анализ</h3>
+                            </div>
+                            <button class="accordion-toggle" data-action="toggle-accordion" data-value="6" aria-label="Свернуть или развернуть этап"></button>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-meta">
+                                <p class="section-note">Проверьте состав, выбранный период и недельную нагрузку перед выгрузкой.</p>
+                                <span class="state-pill" id="pill-step-6">Ожидание</span>
+                            </div>
+                            <button id="analyzeBtn" class="feature-button">
+                                <span>Анализ</span>
+                                <small>Рассчитать рабочие недели и доступные часы</small>
+                            </button>
+                            <div id="analysisPanel" class="analysis-panel"></div>
+                        </div>
+                    </section>
+
+                    <section class="wizard-card" data-step="7">
+                        <div class="accordion-header" data-action="toggle-accordion" data-value="7">
+                            <div class="accordion-title">
+                                <span class="section-index">7</span>
+                                <h3>Ресурсный план</h3>
+                            </div>
+                            <button class="accordion-toggle" data-action="toggle-accordion" data-value="7" aria-label="Свернуть или развернуть этап"></button>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-meta">
+                                <p class="section-note">Скачайте Excel-файл по шаблону со сводным и детальным планом.</p>
+                                <span class="state-pill" id="pill-step-7">Ожидание</span>
+                            </div>
+                            <button id="exportBtn" class="feature-button accent">
+                                <span>Сформировать файл</span>
+                                <small>Excel со вкладками и формулами</small>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="footer-actions">
+                    <p id="statusText" class="status-text"></p>
+                    <button id="resetBtn" class="ghost-button">Сброс</button>
+                </div>
+            </section>
+
+            <aside class="progress-column">
+                <div class="progress-track" id="stepper"></div>
+            </aside>
+        </main>
+    </div>
+
+    <div id="drawerBackdrop" class="drawer-backdrop hidden"></div>
+    <aside id="settingsDrawer" class="settings-drawer">
+        <div class="drawer-head">
+            <h2>Настройка</h2>
+            <button id="closeSettingsTop" class="icon-button" aria-label="Закрыть">×</button>
+        </div>
+
+        <div class="drawer-tabs">
+            <button class="drawer-tab active" data-tab="users">Роли</button>
+            <button class="drawer-tab" data-tab="calendar">Трудовой календарь</button>
+            <button class="drawer-tab" data-tab="misc">Разное</button>
+        </div>
+
+        <div class="drawer-body">
+            <section class="drawer-panel active" data-panel="users">
+                <div class="role-toolbar">
+                    <div id="teamTabsBar" class="team-tabs-bar"></div>
+                    <div class="team-tabs-actions">
+                        <button id="copyTopTeamBtn" class="settings-toolbar-icon" type="button" aria-label="Скопировать команду">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7zm-5 3a2 2 0 0 1 2-2h1v2H6v9h7v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10z" fill="currentColor"/></svg>
+                        </button>
+                        <button id="addTeamBtn" class="settings-add-role" type="button" aria-label="Добавить команду">+</button>
+                    </div>
+                </div>
+                <div id="roleCards" class="role-cards"></div>
+            </section>
+
+            <section class="drawer-panel" data-panel="calendar">
+                <div class="panel-block">
+                    <div class="panel-toolbar panel-toolbar-end">
+                        <button id="testSettingsBtn" class="ghost-button" type="button">Тест</button>
+                    </div>
+                    <div class="panel-head">
+                        <h3>Подключение календаря</h3>
+                        <p>Параметры внешнего API для расчёта рабочих дней и праздничных исключений.</p>
+                    </div>
+                    <div id="calendarForm"></div>
+                </div>
+            </section>
+
+            <section class="drawer-panel" data-panel="misc">
+                <div class="panel-block">
+                    <div id="miscForm"></div>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="drawer-foot">
+            <button id="closeSettingsBtn" class="ghost-button">Закрыть</button>
+            <button id="saveSettingsBtn" class="primary-button">Сохранить</button>
+        </div>
+    </aside>
+
+    <div id="infoDialogBackdrop" class="dialog-backdrop hidden"></div>
+    <section id="infoDialog" class="info-dialog hidden" aria-modal="true" role="dialog" aria-labelledby="infoDialogTitle">
+        <div class="info-dialog-head">
+            <h3 id="infoDialogTitle">Результат проверки</h3>
+            <button id="closeInfoDialogTop" class="icon-button" type="button" aria-label="Закрыть">×</button>
+        </div>
+        <div class="info-dialog-body">
+            <p id="infoDialogMessage"></p>
+        </div>
+        <div class="info-dialog-foot">
+            <button id="closeInfoDialogBtn" class="primary-button" type="button">Закрыть</button>
+        </div>
+    </section>
+</body>
+</html>

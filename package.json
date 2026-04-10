@@ -1,0 +1,21 @@
+{
+  "name": "09_02_resplan",
+  "version": "1.0.0",
+  "description": "Resource planning wizard based on vacation schedules and Excel template export.",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "node --test",
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "xlsx-populate": "^1.21.0"
+  }
+}

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ТЗ ResourcePlanSymphony — Часть 2</title>
+  <style>
+    body { font-family: "Segoe UI", Arial, sans-serif; margin: 0; background: #f3f6fb; color: #17324a; }
+    .page { max-width: 1100px; margin: 32px auto; background: #fff; border-radius: 16px; padding: 32px 40px; box-shadow: 0 12px 32px rgba(18,42,76,.08); }
+    h1 { margin: 0 0 10px; font-size: 34px; }
+    h2 { margin: 26px 0 10px; font-size: 24px; color: #114a87; }
+    h3 { margin: 14px 0 8px; font-size: 18px; color: #205d8f; }
+    ul, ol { margin: 8px 0 14px 22px; }
+    li { margin: 4px 0; line-height: 1.4; }
+    p { margin: 7px 0; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Техническое задание (ТЗ)</h1>
+
+    <h2>3. Функциональные требования</h2>
+    <h3>3.1 Модуль загрузки отпусков</h3>
+    <ol>
+      <li>Принимать файл формата <code>.xlsx</code>.</li>
+      <li>Извлекать отдел, ФИО, должность, периоды и итог дней.</li>
+      <li>Сохранять обработанные данные в состояние проекта.</li>
+    </ol>
+
+    <h3>3.2 Модуль настройки</h3>
+    <ul>
+      <li>Секции: Роли, Трудовой календарь, Разное.</li>
+      <li>Редактирование ролей и команд.</li>
+      <li>Настройка распределения времени.</li>
+      <li>В разделе «Разное» — блок «Скачать образец файла отпусков».</li>
+    </ul>
+
+    <h3>3.3 Выбор состава планирования</h3>
+    <ul>
+      <li>Выбор команды.</li>
+      <li>Выбор подразделений и сотрудников.</li>
+      <li>Выбор последовательного периода (месяцы).</li>
+    </ul>
+
+    <h3>3.4 Модуль анализа</h3>
+    <ul>
+      <li>Расчёт рабочих недель выбранного периода.</li>
+      <li>Учет отпусков, выходных/праздников и процента участия.</li>
+      <li>Отображение результатов в интерфейсе.</li>
+    </ul>
+
+    <h3>3.5 Модуль экспорта</h3>
+    <ul>
+      <li>Формирование итогового Excel-файла.</li>
+      <li>Свод по ролям и детализация по неделям.</li>
+      <li>Совместимость со структурой целевого шаблона.</li>
+    </ul>
+  </div>
+</body>
+</html>

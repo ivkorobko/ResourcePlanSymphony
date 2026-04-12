@@ -1674,6 +1674,16 @@ p {
     gap: 16px;
 }
 
+.misc-download-panel {
+    margin-top: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.misc-download-panel .ghost-button {
+    justify-self: start;
+}
+
 .distribution-card {
     border-radius: 22px;
     border: 1px solid rgba(47, 125, 255, 0.12);

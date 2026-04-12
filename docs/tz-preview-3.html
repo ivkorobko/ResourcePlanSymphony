@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ТЗ ResourcePlanSymphony — Часть 3</title>
+  <style>
+    body { font-family: "Segoe UI", Arial, sans-serif; margin: 0; background: #f3f6fb; color: #17324a; }
+    .page { max-width: 1100px; margin: 32px auto; background: #fff; border-radius: 16px; padding: 32px 40px; box-shadow: 0 12px 32px rgba(18,42,76,.08); }
+    h1 { margin: 0 0 10px; font-size: 34px; }
+    h2 { margin: 26px 0 10px; font-size: 24px; color: #114a87; }
+    h3 { margin: 14px 0 8px; font-size: 18px; color: #205d8f; }
+    ul, ol { margin: 8px 0 14px 22px; }
+    li { margin: 4px 0; line-height: 1.4; }
+    p { margin: 7px 0; line-height: 1.5; }
+    .note { border-left: 4px solid #3b79d8; background: #eef4ff; padding: 10px 12px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Техническое задание (ТЗ)</h1>
+
+    <h2>4. Нефункциональные требования</h2>
+    <ul>
+      <li>Время ответа API (кроме тяжелых операций) — до 3 секунд при типовой нагрузке.</li>
+      <li>Работа приложения при временной недоступности PostgreSQL.</li>
+      <li>Логи ошибок и запуска в директории <code>logs/</code>.</li>
+    </ul>
+
+    <h2>5. Требования к данным</h2>
+    <ul>
+      <li>Основное хранение: PostgreSQL таблица <code>app_document</code>.</li>
+      <li>Fallback: <code>.symfony_tmp/var/state/*.json</code>.</li>
+      <li>Демо-артефакты: <code>Test_demo.xlsx</code> и шаблон с одной записью.</li>
+    </ul>
+
+    <h2>6. API (минимум)</h2>
+    <ul>
+      <li><code>GET /api/bootstrap</code></li>
+      <li><code>POST /api/upload-vacations</code></li>
+      <li><code>POST /api/settings</code></li>
+      <li><code>GET /api/calendar/month-workdays</code></li>
+      <li><code>POST /api/analyze</code></li>
+      <li><code>POST /api/export</code></li>
+      <li><code>POST /api/reset-workflow</code></li>
+    </ul>
+
+    <h2>7. Критерии приемки</h2>
+    <ol>
+      <li>Приложение стартует на <code>http://127.0.0.1:3003</code>.</li>
+      <li>Загрузка файла отпусков работает.</li>
+      <li>Настройки ролей/команд сохраняются.</li>
+      <li>В разделе «Разное» доступно скачивание образца.</li>
+      <li>Анализ и экспорт выполняются без критических ошибок.</li>
+    </ol>
+
+    <div class="note">
+      Для полного текста используйте файл <strong>ResourcePlanSymphony_TZ.md</strong>.
+    </div>
+  </div>
+</body>
+</html>

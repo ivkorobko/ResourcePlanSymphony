@@ -2172,6 +2172,13 @@ function renderSettings() {
                 `;
             }).join("")}
         </div>
+        <section class="panel-block misc-download-panel">
+            <div class="panel-head">
+                <h3>Скачать образец файла отпусков</h3>
+                <p>Скачайте шаблон с одной демонстрационной записью и заполните его по аналогии.</p>
+            </div>
+            <a class="ghost-button" href="/download/vacations-sample-template" download>Скачать образец файла отпусков</a>
+        </section>
     `;
 
 }

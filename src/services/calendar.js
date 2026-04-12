@@ -13,26 +13,6 @@ function buildWeekendFallback(start, end) {
     return result;
 }
 
-function buildCalendarUrl(config, date1, date2) {
-    const url = new URL(config.endpointPath || "/api/getdata", config.baseUrl || "https://isdayoff.ru");
-    url.searchParams.set(config.queryFromParam || "date1", date1);
-    url.searchParams.set(config.queryToParam || "date2", date2);
-
-    if (config.queryDelimiterParam) {
-        url.searchParams.set(config.queryDelimiterParam, config.queryDelimiterValue ?? "\n");
-    }
-
-    if (config.authType === "query" && config.apiKey && config.apiKeyParamName) {
-        url.searchParams.set(config.apiKeyParamName, config.apiKey);
-    }
-
-    if (config.country) {
-        url.searchParams.set("cc", String(config.country).toLowerCase());
-    }
-
-    return url;
-}
-
 function buildCalendarYearUrl(config, year) {
     const url = new URL(config.endpointPath || "/api/getdata", config.baseUrl || "https://isdayoff.ru");
     url.searchParams.set("year", String(year));

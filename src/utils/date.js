@@ -30,29 +30,6 @@ function excelSerialToDate(serial) {
     return new Date(Date.UTC(info.getUTCFullYear(), info.getUTCMonth(), info.getUTCDate()));
 }
 
-function toDate(value) {
-    if (!value) {
-        return null;
-    }
-
-    if (value instanceof Date) {
-        return cloneDate(value);
-    }
-
-    if (typeof value === "number") {
-        return excelSerialToDate(value);
-    }
-
-    if (typeof value === "string") {
-        const direct = new Date(value);
-        if (!Number.isNaN(direct.getTime())) {
-            return cloneDate(direct);
-        }
-    }
-
-    return null;
-}
-
 function toIsoDate(date) {
     if (!date) {
         return "";
@@ -80,19 +57,6 @@ function endOfMonth(date) {
 
 function addMonths(date, count) {
     return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + count, 1));
-}
-
-function startOfIsoWeek(date) {
-    const result = cloneDate(date);
-    const day = result.getUTCDay() || 7;
-    result.setUTCDate(result.getUTCDate() - day + 1);
-    return result;
-}
-
-function endOfIsoWeek(date) {
-    const result = startOfIsoWeek(date);
-    result.setUTCDate(result.getUTCDate() + 6);
-    return result;
 }
 
 function getIsoWeek(date) {
@@ -145,7 +109,6 @@ module.exports = {
     addMonths,
     capitalize,
     cloneDate,
-    endOfIsoWeek,
     endOfMonth,
     enumerateDays,
     excelSerialToDate,
@@ -156,8 +119,6 @@ module.exports = {
     monthKey,
     pad,
     parseMonthKey,
-    startOfIsoWeek,
     startOfMonth,
-    toDate,
     toIsoDate
 };
